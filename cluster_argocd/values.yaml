@@ -15,10 +15,9 @@ nfs:
 postgresql:
   global:
     postgresql:
-      postgresPassword: "12345678"
       username: "airflow"
-      password: "12345678"
       database: "airflow"
+      existingSecret: "airflow-postgresql-credentials"
     persistence:
       enabled: true
       size: 1Gi
@@ -36,13 +35,7 @@ airflow:
       size: 1Gi
       storageClassName: "nfs-rwx"
   data:
-    metadataConnection:
-      user: airflow
-      pass: "12345678"
-      protocol: "postgresql"
-      db: "airflow"
-      port: 5432
-      host: "airflow-postgresql.airflow.svc.cluster.local"
+    metadataSecretName: "airflow-credentials"
   config:
     core:
       load_examples: "False"
@@ -56,4 +49,4 @@ airflow:
       wait: 60
       maxFailures: 3
       subPath: "dags_eks"
-      credentialsSecret: "airflow-git-secret"
+      credentialsSecret: "airflow-credentials"
