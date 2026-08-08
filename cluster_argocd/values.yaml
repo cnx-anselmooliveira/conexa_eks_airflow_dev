@@ -35,6 +35,8 @@ airflow:
     enabled: false
   workers:
     replicas: 0
+  redis:
+    enabled: false
   logs:
     persistence:
       enabled: true
