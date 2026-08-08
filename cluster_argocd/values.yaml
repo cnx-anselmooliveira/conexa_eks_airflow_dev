@@ -45,6 +45,14 @@ airflow:
   config:
     core:
       load_examples: "False"
+  migrateDatabaseJob:
+    useHelmHooks: false
+    applyCustomEnv: false
+    jobAnnotations:
+      "argocd.argoproj.io/hook": Sync
+  createUserJob:
+    useHelmHooks: false
+    applyCustomEnv: false
   dags:
     gitSync:
       enabled: true
