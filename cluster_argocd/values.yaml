@@ -13,6 +13,8 @@ nfs:
       - timeo=30
 
 postgresql:
+  volumePermissions:
+    enabled: true
   global:
     auth:
       username: "airflow"
