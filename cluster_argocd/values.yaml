@@ -19,6 +19,10 @@ postgresql:
       username: "airflow"
       password: "12345678"
       database: "airflow"
+    persistence:
+      enabled: true
+      size: 1Gi
+      storageClass: "nfs-rwx"
 
 airflow:
   executor: "KubernetesExecutor"
