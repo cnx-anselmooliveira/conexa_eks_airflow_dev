@@ -15,10 +15,9 @@ nfs:
 postgresql:
   global:
     postgresql:
-      postgresPassword: "12345678"
       username: "airflow"
-      password: "12345678"
       database: "airflow"
+      existingSecret: "airflow-postgresql-credentials"
     persistence:
       enabled: true
       size: 1Gi
