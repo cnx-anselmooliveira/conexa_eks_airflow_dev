@@ -1,16 +1,16 @@
 nfs:
   persistence:
     enabled: true
-    storageClass: standard
     size: 2Gi
+    storageClass: standard
   storageClass:
+    create: true
     name: "nfs-rwx"
-    accessMode: ReadWriteMany
-    reclaimPolicy: Retain
     defaultClass: false
     mountOptions:
       - vers=4.1
       - retrans=2
+      - timeo=30
 
 postgresql:
   global:
