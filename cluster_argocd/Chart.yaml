@@ -13,3 +13,13 @@ dependencies:
     repository: https://airflow.apache.org/
     alias: airflow
     condition: airflow.enabled
+  - name: nfs-server-provisioner
+    version: 1.8.0
+    repository: https://kvaps.github.io/charts
+    alias: nfs
+    condition: nfs-server-provisioner.enabled
+  - name: postgresql 
+    version: 18.8.6
+    repository: https://charts.bitnami.com/bitnami
+    alias: postgresql 
+    condition: postgresql.enabled
