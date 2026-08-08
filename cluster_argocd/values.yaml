@@ -16,14 +16,11 @@ postgresql:
   volumePermissions:
     enabled: true
   global:
-    auth:
-      username: "airflow"
-      database: "airflow"
-      existingSecret: "airflow-postgresql-credentials"
     postgresql:
-      username: "airflow"
-      database: "airflow"
-      existingSecret: "airflow-postgresql-credentials"
+      auth:
+        username: "airflow"
+        database: "airflow"
+        existingSecret: "airflow-postgresql-credentials"
     persistence:
       enabled: true
       size: 1Gi
