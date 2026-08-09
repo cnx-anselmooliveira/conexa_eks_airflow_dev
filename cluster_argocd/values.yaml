@@ -53,6 +53,10 @@ airflow:
     useHelmHooks: false
     applyCustomEnv: false
   dags:
+    persistence:
+      enabled: true
+      size: 1Gi
+      storageClassName: "nfs-rwx"
     gitSync:
       enabled: true
       repo: "https://github.com/conexasaude/airflow.git"
