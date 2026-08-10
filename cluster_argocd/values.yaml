@@ -27,6 +27,11 @@ postgresql:
       storageClass: "nfs-rwx"
 
 airflow:
+  images:
+    airflow:
+      repository: conexaeksairflowdev
+      tag: dev
+      pullPolicy: IfNotPresent
   executor: "KubernetesExecutor"
   postgresql:
     enabled: false
