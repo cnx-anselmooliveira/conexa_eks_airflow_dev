@@ -46,14 +46,19 @@ airflow:
       storageClassName: "nfs-rwx"
   data:
     metadataSecretName: "airflow-credentials"
+  apiServer:
+    startupProbe:
+      failureThreshold: 20
+      periodSeconds: 10
+  scheduler:
+    startupProbe:
+      failureThreshold: 20
+      periodSeconds: 10
   config:
     core:
       load_examples: "False"
     logging:
-      remote_logging: "True"
-      remote_base_log_folder: "s3://conexa-airflow/logs/airflow_eks_dev"
-      remote_log_conn_id: "aws_default"
-      encrypt_s3_logs: "False"
+      remote_logging: "False"
       colored_console_log: 'False'
   migrateDatabaseJob:
     useHelmHooks: false
