@@ -87,7 +87,8 @@ airflow:
                 CUR_HASH=$(git -C "$REPO_PATH" rev-parse HEAD 2>/dev/null)
                 if [ "$CUR_HASH" != "$LAST_HASH" ]; then
                   echo "Mudança detectada, rodando dbt parse..."
-                  dbt parse --project-dir "$REPO_PATH"
+                  mkdir -p /opt/airflow/dags/dbt-target /opt/airflow/dags/dbt-logs
+                  dbt parse --project-dir "$REPO_PATH" --target-path /opt/airflow/dags/dbt-target --log-path /opt/airflow/dags/dbt-logs
                   LAST_HASH="$CUR_HASH"
                 fi
               fi
