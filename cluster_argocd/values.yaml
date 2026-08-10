@@ -75,7 +75,7 @@ airflow:
   dagProcessor:
     extraContainers:
       - name: dbt-parse
-        image: "{{ .Values.airflow.images.airflow.repository }}:{{ .Values.airflow.images.airflow.tag }}"
+        image: "{{ .Values.images.airflow.repository }}:{{ .Values.images.airflow.tag }}"
         command: ["bash", "-c"]
         args:
           - |
