@@ -60,7 +60,7 @@ airflow:
     gitSync:
       enabled: true
       repo: "https://github.com/conexasaude/airflow.git"
-      branch: "main"
+      branch: "dev"
       rev: "HEAD"
       depth: 1
       wait: 60
