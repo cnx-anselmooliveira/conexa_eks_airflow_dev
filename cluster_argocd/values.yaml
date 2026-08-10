@@ -73,6 +73,13 @@ airflow:
       subPath: "dags_eks"
       credentialsSecret: "airflow-credentials"
   dagProcessor:
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
     extraContainers:
       - name: dbt-parse
         image: "{{ .Values.images.airflow.repository }}:{{ .Values.images.airflow.tag }}"
