@@ -29,7 +29,7 @@ postgresql:
 airflow:
   images:
     airflow:
-      repository: anselmomendes/conexaeksairflowdev
+      repository: docker.io/anselmomendes/conexaeksairflowdev
       tag: dev
       pullPolicy: IfNotPresent
   executor: "KubernetesExecutor"
