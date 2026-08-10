@@ -49,6 +49,12 @@ airflow:
   config:
     core:
       load_examples: "False"
+    logging:
+      remote_logging: "True"
+      remote_base_log_folder: "s3://conexa-airflow/logs/airflow_eks_dev"
+      remote_log_conn_id: "aws_default"
+      encrypt_s3_logs: "False"
+      colored_console_log: 'False'
   migrateDatabaseJob:
     useHelmHooks: false
     applyCustomEnv: false
