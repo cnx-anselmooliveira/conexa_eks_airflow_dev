@@ -80,6 +80,7 @@ airflow:
         args:
           - |
             REPO_PATH="/opt/airflow/dags/repo/dbt/lakehouse"
+            WORK_DIR="/opt/airflow/dags/dbt-workdir"
             git config --global --add safe.directory "*"
             LAST_HASH=""
             while true; do
@@ -87,10 +88,11 @@ airflow:
                 CUR_HASH=$(git -C "$REPO_PATH" rev-parse HEAD 2>/dev/null)
                 if [ "$CUR_HASH" != "$LAST_HASH" ]; then
                   echo "Mudança detectada, rodando dbt deps + parse..."
-                  export DBT_PACKAGES_INSTALL_PATH=/opt/airflow/dags/dbt-packages
-                  mkdir -p /opt/airflow/dags/dbt-target /opt/airflow/dags/dbt-logs "$DBT_PACKAGES_INSTALL_PATH"
-                  dbt deps --project-dir "$REPO_PATH" --log-path /opt/airflow/dags/dbt-logs
-                  dbt parse --project-dir "$REPO_PATH" --target-path /opt/airflow/dags/dbt-target --log-path /opt/airflow/dags/dbt-logs
+                  rm -rf "$WORK_DIR"
+                  mkdir -p "$WORK_DIR"
+                  cp -r "$REPO_PATH"/. "$WORK_DIR"/
+                  dbt deps --project-dir "$WORK_DIR"
+                  dbt parse --project-dir "$WORK_DIR"
                   LAST_HASH="$CUR_HASH"
                 fi
               fi
