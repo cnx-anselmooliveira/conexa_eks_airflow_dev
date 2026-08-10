@@ -75,11 +75,11 @@ airflow:
   dagProcessor:
     resources:
       requests:
-        cpu: "500m"
-        memory: "512Mi"
-      limits:
         cpu: "1"
         memory: "1Gi"
+      limits:
+        cpu: "2"
+        memory: "2Gi"
     extraContainers:
       - name: dbt-parse
         image: "{{ .Values.images.airflow.repository }}:{{ .Values.images.airflow.tag }}"
