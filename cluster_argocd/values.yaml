@@ -72,3 +72,26 @@ airflow:
       maxFailures: 3
       subPath: "dags_eks"
       credentialsSecret: "airflow-credentials"
+  dagProcessor:
+    extraContainers:
+      - name: dbt-parse
+        image: "{{ .Values.airflow.images.airflow.repository }}:{{ .Values.airflow.images.airflow.tag }}"
+        command: ["bash", "-c"]
+        args:
+          - |
+            REPO_PATH="/opt/airflow/dags/repo/dbt/lakehouse"
+            LAST_HASH=""
+            while true; do
+              if [ -d "$REPO_PATH" ]; then
+                CUR_HASH=$(git -C "$REPO_PATH" rev-parse HEAD 2>/dev/null)
+                if [ "$CUR_HASH" != "$LAST_HASH" ]; then
+                  echo "Mudança detectada, rodando dbt parse..."
+                  dbt parse --project-dir "$REPO_PATH"
+                  LAST_HASH="$CUR_HASH"
+                fi
+              fi
+              sleep 30
+            done
+        volumeMounts:
+          - name: dags
+            mountPath: /opt/airflow/dags
