@@ -80,6 +80,7 @@ airflow:
         args:
           - |
             REPO_PATH="/opt/airflow/dags/repo/dbt/lakehouse"
+            git config --global --add safe.directory "*"
             LAST_HASH=""
             while true; do
               if [ -d "$REPO_PATH" ]; then
