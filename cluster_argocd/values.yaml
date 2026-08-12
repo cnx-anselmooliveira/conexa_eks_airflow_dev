@@ -1,3 +1,13 @@
+postgresql:
+  volumePermissions:
+    enabled: true
+  global:
+    postgresql:
+      auth:
+        username: "airflow"
+        database: "airflow"
+        existingSecret: "airflow-postgresql-credentials"
+
 airflow:
   enabled: true
   executor: "KubernetesExecutor"
