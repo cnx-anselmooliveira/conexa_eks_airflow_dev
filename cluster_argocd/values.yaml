@@ -50,13 +50,6 @@ airflow:
             operator: In
             values:
             - amd64
-  extraEnv: |
-    - name: MY_POD_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-    - name: AIRFLOW__CORE__HOSTNAME_CALLABLE
-      value: "k8s_hostname.get_pod_ip"
   config:
     core:
       load_examples: "False"
