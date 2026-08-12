@@ -1,37 +1,10 @@
-nfs:
-  persistence:
-    enabled: true
-    size: 2Gi
-    storageClass: standard
-  storageClass:
-    create: true
-    name: "nfs-rwx"
-    defaultClass: false
-    mountOptions:
-      - vers=4.1
-      - retrans=2
-      - timeo=30
-
-postgresql:
-  volumePermissions:
-    enabled: true
-  global:
-    postgresql:
-      auth:
-        username: "airflow"
-        database: "airflow"
-        existingSecret: "airflow-postgresql-credentials"
-    persistence:
-      enabled: true
-      size: 1Gi
-      storageClass: "nfs-rwx"
-
 airflow:
+  enabled: true
   images:
     airflow:
-      repository: docker.io/anselmomendes/conexaeksairflowdev
-      tag: dev
-      pullPolicy: IfNotPresent
+      repository: 024848458609.dkr.ecr.sa-east-1.amazonaws.com/conexasaude/airflow-dbt-hmg
+      tag: homolog
+      pullPolicy: Always
   executor: "KubernetesExecutor"
   postgresql:
     enabled: false
@@ -39,14 +12,18 @@ airflow:
     replicas: 0
   redis:
     enabled: false
-  logs:
-    persistence:
-      enabled: true
-      size: 1Gi
-      storageClassName: "nfs-rwx"
   data:
-    metadataSecretName: "airflow-credentials"
+    metadataSecretName: "conexa-external-secrets-airflow-hml"
+  fernetKeySecretName: "conexa-external-secrets-airflow-fernet-key-hml"
+  apiSecretKeySecretName: "conexa-external-secrets-airflow-api-secret-key-hml"
   apiServer:
+    resources:
+      requests:
+        cpu: "2"
+        memory: "2Gi"
+      limits:
+        cpu: "4"
+        memory: "4Gi"
     startupProbe:
       failureThreshold: 20
       periodSeconds: 10
@@ -54,12 +31,32 @@ airflow:
     startupProbe:
       failureThreshold: 20
       periodSeconds: 10
+    resources:
+      requests:
+        cpu: "1"
+        memory: "1Gi"
+      limits:
+        cpu: "2"
+        memory: "2Gi"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/arch
+            operator: In
+            values:
+            - amd64
+  extraEnv: |
+    - name: MY_POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: AIRFLOW__CORE__HOSTNAME_CALLABLE
+      value: "k8s_hostname.get_pod_ip"
   config:
     core:
       load_examples: "False"
-    logging:
-      remote_logging: "False"
-      colored_console_log: 'False'
   migrateDatabaseJob:
     useHelmHooks: false
     applyCustomEnv: false
@@ -69,20 +66,16 @@ airflow:
     useHelmHooks: false
     applyCustomEnv: false
   dags:
-    persistence:
-      enabled: true
-      size: 1Gi
-      storageClassName: "nfs-rwx"
     gitSync:
       enabled: true
       repo: "https://github.com/conexasaude/airflow.git"
-      branch: "dev"
+      branch: "homologacao"
       rev: "HEAD"
       depth: 1
       wait: 60
       maxFailures: 3
       subPath: "dags_eks"
-      credentialsSecret: "airflow-credentials"
+      credentialsSecret: "conexa-external-secrets-airflow-git-hml"
   dagProcessor:
     resources:
       requests:

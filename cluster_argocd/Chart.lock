@@ -2,11 +2,5 @@ dependencies:
 - name: airflow
   repository: https://airflow.apache.org/
   version: 1.22.0
-- name: nfs-server-provisioner
-  repository: https://kvaps.github.io/charts
-  version: 1.8.0
-- name: postgresql
-  repository: https://charts.bitnami.com/bitnami
-  version: 18.8.6
-digest: sha256:e16ea0a371b6399d2b4880184fffcdefe551ba561b50dcbf4f498e1a1ae03311
-generated: "2026-08-08T09:29:17.2263617-03:00"
+digest: sha256:c19d81ce26963d46aa43ca539d085f97486198ea39d6d0e06a2ae9c44111b395
+generated: "2026-08-12T15:48:35.6445304-03:00"
