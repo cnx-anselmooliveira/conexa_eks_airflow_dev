@@ -80,31 +80,3 @@ airflow:
       limits:
         cpu: "2"
         memory: "2Gi"
-    extraContainers:
-      - name: dbt-parse
-        image: "{{ .Values.images.airflow.repository }}:{{ .Values.images.airflow.tag }}"
-        command: ["bash", "-c"]
-        args:
-          - |
-            REPO_PATH="/opt/airflow/dags/repo/dbt/lakehouse"
-            WORK_DIR="/opt/airflow/dags/dbt-workdir"
-            git config --global --add safe.directory "*"
-            LAST_HASH=""
-            while true; do
-              if [ -d "$REPO_PATH" ]; then
-                CUR_HASH=$(git -C "$REPO_PATH" rev-parse HEAD 2>/dev/null)
-                if [ "$CUR_HASH" != "$LAST_HASH" ]; then
-                  echo "Mudança detectada, rodando dbt deps + parse..."
-                  rm -rf "$WORK_DIR"
-                  mkdir -p "$WORK_DIR"
-                  cp -r "$REPO_PATH"/. "$WORK_DIR"/
-                  dbt deps --project-dir "$WORK_DIR"
-                  dbt parse --project-dir "$WORK_DIR"
-                  LAST_HASH="$CUR_HASH"
-                fi
-              fi
-              sleep 30
-            done
-        volumeMounts:
-          - name: dags
-            mountPath: /opt/airflow/dags
