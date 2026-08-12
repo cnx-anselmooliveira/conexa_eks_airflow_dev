@@ -19,8 +19,6 @@ airflow:
     enabled: false
   data:
     metadataSecretName: "airflow-credentials"
-  #fernetKeySecretName: "conexa-external-secrets-airflow-fernet-key-hml"
-  #apiSecretKeySecretName: "conexa-external-secrets-airflow-api-secret-key-hml"
   apiServer:
     resources:
       requests:
