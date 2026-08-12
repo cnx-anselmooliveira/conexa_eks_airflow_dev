@@ -18,7 +18,7 @@ airflow:
   redis:
     enabled: false
   data:
-    metadataSecretName: "conexa-external-secrets-airflow-hml"
+    metadataSecretName: "airflow-credentials"
   #fernetKeySecretName: "conexa-external-secrets-airflow-fernet-key-hml"
   #apiSecretKeySecretName: "conexa-external-secrets-airflow-api-secret-key-hml"
   apiServer:
@@ -80,7 +80,7 @@ airflow:
       wait: 60
       maxFailures: 3
       subPath: "dags_eks"
-      credentialsSecret: "conexa-external-secrets-airflow-git-hml"
+      credentialsSecret: "airflow-credentials"
   dagProcessor:
     resources:
       requests:
